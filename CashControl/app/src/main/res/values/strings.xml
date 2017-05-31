@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CashControl</string>
+
+    <string-array name="category">
+        <item>Развлечение</item>
+        <item>Проживание</item>
+        <item>Непредвиденные</item>
+    </string-array>
+
+</resources>
