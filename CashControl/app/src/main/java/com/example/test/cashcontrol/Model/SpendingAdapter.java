@@ -55,10 +55,10 @@ public class SpendingAdapter extends BaseAdapter {
 
         TextView tv_goodName = (TextView) view.findViewById(R.id.tv_Name);
         String curDate = DATE_FORMAT.format(good_temp.getDate().getTime());
-        tv_goodName.setText(good_temp.getName() + curDate);
+        tv_goodName.setText(curDate + " " + good_temp.getName());
 
         TextView goodPrice = (TextView) view.findViewById(R.id.tv_Price);
-        goodPrice.setText(Integer.toString(good_temp.getPrice()));
+        goodPrice.setText(Integer.toString(good_temp.getPrice()) + " руб.");
 
         TextView goodCategory = (TextView) view.findViewById(R.id.tv_Category);
         goodCategory.setText(good_temp.getCategory());

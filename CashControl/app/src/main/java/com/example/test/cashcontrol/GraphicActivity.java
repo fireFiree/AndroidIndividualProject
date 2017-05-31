@@ -113,10 +113,10 @@ public class GraphicActivity  extends Activity {
         tv_Live = (TextView) findViewById(R.id.tv_Live);
         tv_Unexpected = (TextView) findViewById(R.id.tv_Unexpected);
 
-        tv_Sum.setText(String.valueOf(sum)+ " рублей");
-        tv_Entertain.setText(String.valueOf(entertain));
-        tv_Live.setText(String.valueOf(live));
-        tv_Unexpected.setText(String.valueOf(unexpected));
+        tv_Sum.setText(String.valueOf(sum) + " руб.");
+        tv_Entertain.setText(String.valueOf(entertain) + " руб.");
+        tv_Live.setText(String.valueOf(live) + " руб.");
+        tv_Unexpected.setText(String.valueOf(unexpected) + " руб.");
 }
     private int getSumEntertain(){
         int sum = 0;
@@ -171,7 +171,7 @@ public class GraphicActivity  extends Activity {
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.BLACK);
         series.setSpacing(0);
-        graph.setTitle("График расходов за прошлый месяц!");
+        graph.setTitle("График расходов за прошлый месяц");
         graph.setBackgroundColor(Color.WHITE);
         graph.addSeries(series);
     }

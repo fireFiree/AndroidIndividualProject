@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         saveText();
-        db.close();
     }
 
     private void fillData() {
@@ -115,7 +114,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_Limit.setText(limit);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
 
     private void initDB() {
         db = new DB(this);
@@ -124,12 +129,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /// ЭТО ЗАКОМЕНТИТЬ
         ///
         ////
-        db.addRecord("Луна", 30, "03/04/2017" ,"Развлечение");
-        db.addRecord("Солнышко", 300, "03/04/2017" ,"Развлечение");
-        db.addRecord("ЛОШАДЬ", 271, "05/04/2017" ,"Проживание");
-        db.addRecord("Палка", 30, "11/04/2017" ,"Непредвиденные");
-        db.addRecord("Палка", 33, "13/04/2017" ,"Развлечение");
-        db.addRecord("Палка", 30, "14/04/2017" ,"Развлечение");
+        /*db.addRecord("Кеды", 30, "03/04/2017" ,"Непредвиденные");
+        db.addRecord("Билеты", 300, "03/04/2017" ,"Развлечение");
+        db.addRecord("Лошадь", 271, "05/04/2017" ,"Развлечение");
+        db.addRecord("Очки", 30, "11/04/2017" ,"Проживание");
+        db.addRecord("Крем для ног", 30, "13/04/2017" ,"Проживание");
+        db.addRecord("Футбольный мяч", 30, "14/04/2017" ,"Развлечение");*/
         /////
         ////
         ////ВОТ ДО СЮДА! А В ТЕКУЩИЙ МЕСЯЦ ДОАВИШЬ РУКАМИ
@@ -224,13 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
-    }
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
@@ -249,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("Date", date);
 
                 startActivityForResult(intent, 1);
+
                 return true;
             }
             case R.id.delete: {
@@ -287,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -301,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
         }
+
         return super.onOptionsItemSelected(item);
 
     }
@@ -309,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int limit = Integer.parseInt(tv_Limit.getText().toString());
         int price = Integer.parseInt(tv_Price.getText().toString());
-        if(limit*0.9 <= price) {
+        if(limit <= price || limit*0.9 <= price) {
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE); // Создаем экземпляр менеджера уведомлений
             int icon = android.R.drawable.btn_star_big_on;
             CharSequence tickerText = "Не забывайте о своём лимите на месяц! Вы израсходовали:"
@@ -317,21 +318,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     + String.valueOf(limit)+ "!!! ";
 
             long when = System.currentTimeMillis();
+
             Intent notificationIntent = new Intent(this, MainActivity.class);
-            Notification notification = new Notification(icon, tickerText, when);
-            // Создаем экземпляр уведомления, и передаем ему наши параметры
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-            // Подробное описание смотреть в UPD к статье
-            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification);
-            // Создаем экземпляр RemoteViews указывая использовать разметку нашего уведомления
-            contentView.setImageViewResource(R.id.image, R.drawable.cash);
-            // Привязываем нашу картинку к ImageView в разметке уведомления
-            contentView.setTextViewText(R.id.text, "Не забывайте о своём лимите на месяц!");
-            // Привязываем текст к TextView в нашей разметке
-            notification.contentIntent = contentIntent;
-            // Присваиваем contentIntent нашему уведомлению
-            notification.contentView = contentView;
-            // Присваиваем contentView нашему уведомлению
+
+            Notification notification = new Notification(icon, tickerText, when); // Создаем экземпляр уведомления, и передаем ему наши параметры
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0); // Подробное описание смотреть в UPD к статье
+            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification); // Создаем экземпляр RemoteViews указывая использовать разметку нашего уведомления
+            contentView.setImageViewResource(R.id.image, R.drawable.cash); // Привязываем нашу картинку к ImageView в разметке уведомления
+            contentView.setTextViewText(R.id.text, "Не забывайте о своём лимите на месяц!"); // Привязываем текст к TextView в нашей разметке
+            notification.contentIntent = contentIntent; // Присваиваем contentIntent нашему уведомлению
+            notification.contentView = contentView; // Присваиваем contentView нашему уведомлению
             notification.defaults |= Notification.DEFAULT_VIBRATE;
             mNotificationManager.notify(NOTIFY_ID, notification);
         }// Выводим уведомление в строку

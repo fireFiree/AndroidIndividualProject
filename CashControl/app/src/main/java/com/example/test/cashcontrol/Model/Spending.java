@@ -6,10 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by NotePad.by on 01.05.2017.
- */
-
 public class Spending {
     private int id;
     private Calendar date;

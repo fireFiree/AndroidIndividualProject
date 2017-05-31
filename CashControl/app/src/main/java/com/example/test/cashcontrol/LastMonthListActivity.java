@@ -21,10 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by NotePad.by on 09.05.2017.
- */
-
 public class LastMonthListActivity extends AppCompatActivity {
 
     private Cursor cursor;
@@ -71,8 +67,10 @@ public class LastMonthListActivity extends AppCompatActivity {
         btnAdd.setVisibility(View.INVISIBLE);
         TextView txv = (TextView)view_footer.findViewById(R.id.tv_Limit);
         txv.setVisibility(View.INVISIBLE);
-        TextView limCount = (TextView)view_footer.findViewById(R.id.textView4);
+        TextView limCount = (TextView)view_footer.findViewById(R.id.tv_lableLimit);
         limCount.setVisibility(View.INVISIBLE);
+        TextView rubLimCount = (TextView)view_footer.findViewById(R.id.tv_Rub1);
+        rubLimCount.setVisibility(View.INVISIBLE);
 
         lv_Spending.addFooterView(view_footer);
 
